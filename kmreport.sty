@@ -1,0 +1,155 @@
+% Korea Maintenance COVER STYLE
+% Provides a command, \makecover, that produces 
+% the cover for a KM technical report.
+
+% Eunchurn Park
+% eunchurn@kmbest.co.kr
+% Mov 13, 2011
+
+% Intructions:
+%
+% 1) Copy kmreport.sty and kmbestblk.eps to the directory where
+%    you would plan to work.
+% 2) Include in your latex header something like:
+%    \documentclass{article}
+%    \usepackage{kmreport}
+% 3) Define the title and author fields in latex, e.g.,
+%
+%      \title{Korea Maintenance, Department of U-Biz
+%      Report Series}
+%      
+%      \author{Eunchurn Park \\
+%      {\tt\{eunchurn@kmbest.co.kr\}}\\
+%      \\
+%      Dept of Research Institute, U-Biz \\
+%      Korea Maintenance Co., LTD.\\
+%      }
+%      \reportmonth{November}
+%      \reportyear{2011}
+%      \reportnumber{0004}
+% 4) Put the \makecover and \maketitle command just
+%    after your \begindocument.
+% 5) run latex and you are all set.
+%
+%
+
+
+
+\oddsidemargin  0truein
+\evensidemargin 0truein
+\topmargin 0truein
+\headheight 0.0truein
+\headsep 0truein
+\textheight 9truein
+\textwidth 6.5truein
+
+
+\font\smallheadfont=cmss9
+\font\largeheadfont=cmss17
+
+\def\@coverart{\special{psfile=./kmbestblk.eps voffset=-150 hscale=100}}
+\def\reportnumber#1{\def\@reportnumber{#1}}
+\def\reportmonth#1{\def\@reportmonth{#1}}
+\def\reportyear#1{\def\@reportyear{#1}}
+\def\@reportnumber{????}
+\def\@reportmonth{}
+\def\@reportyear{????}
+\def\@numberformatter{\largeheadfont LECTURE NOTE \\ NOTE-\@reportdesignator}
+
+\def\makecover{
+\titlepage   
+\def\thanks##1{\relax}
+\setcounter{page}{1}
+\ifx\@empty\@reportyear%
+    \def\@reportdesignator{\@reportnumber}
+\else%
+    \date{\@reportmonth\ \@reportyear}%
+    \@tempcnta\@reportyear%
+    \divide\@tempcnta by 100%
+    \multiply\@tempcnta by 100%
+    \@tempcntb\@reportyear%
+    \advance\@tempcntb-\@tempcnta%
+    \edef\@reportdesignator{\@reportyear-\@reportnumber}%
+\fi
+\shipout
+\vbox to 9.4true in
+{
+\hsize=6.5true in\parindent=0.5true in
+{
+
+\hrule
+\vbox to 1.0true in{\vfil}
+\vbox to 0.25true in{\vfil}
+\noindent\begin{minipage}[t]{6.5 true in}
+\LARGE\bf
+\begin{center}
+\@title
+\end{center}
+\end{minipage}
+
+\vbox to 0.625true in{\vfil}
+
+\noindent\begin{minipage}[t]{6.5 true in}
+\Large\it
+\begin{center}
+{\lineskip .75em\begin{tabular}[t]{c}\@author\end{tabular}\par}%
+\end{center}
+\end{minipage}
+
+% \vbox to 2.625true in{\vfil}
+
+\vfill
+
+\hrule
+
+\vbox to 0.2true in{\vfil}
+
+{
+\@coverart
+\hspace{2.95true in}
+\begin{minipage}[t]{3.5true in}
+\large\parindent=0pt
+{\bf \@numberformatter} \\
+\vspace{1ex}
+\noindent \@date \\
+\vspace{2ex} \\
+EUNCHURN PARK\\(eunchurn@kmctech.co.kr)\\
+Structrual Analysis \& Dynamics Laboratory\\
+Deppartment of Architectural Engineering\\
+Dankook University School of Architecture\\
+
+Department of R\&D Development \\
+Korea Maintenance Co., LTD. \\
+KM Tower 12F\\
+130-5, Guro-5-dong, Gurogu, Seoul (152-842)\\
+PHN: +82-2-830-7071 (236)\\
+SEL: +82-10-4499-6420\\
+FAX: +82-2-830-5256 \\
+\end{minipage}
+}}
+}
+\renewcommand{\@oddfoot}{
+Numerical Analysis for Engineers, NOTE-\@reportdesignator \hfil \thepage }%
+}
+
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1.5em%
+    {\large
+      \lineskip .5em%
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+    \vskip 1em%
+    {\em Dept. of Architectural Engineering, Dankook Univ. School of Architecture, NOTE-\@reportdesignator}%
+    \vskip .5em%
+    {\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1.5em
+}

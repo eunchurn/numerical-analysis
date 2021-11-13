@@ -1,0 +1,375 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+\documentclass[a4,10pt]{article}
+\usepackage{exam}
+%\usepackage{pslatex}
+\usepackage{graphicx}
+\usepackage[toc,page]{appendix}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\input{listingstyle}
+\renewcommand*{\lstlistingname}{Code [\textsc{\scriptsize{MATLAB}}]}
+\usepackage{mathptmx}	% Use the Postscript Times font
+\usepackage[FIGBOTCAP,normal,bf,tight]{subfigure}
+\usepackage[normal,bf,tight]{subfigure}
+\usepackage[dvips,light,first,bottomafter]{draftcopy}
+\draftcopyName{Sample, contains no OUO}{70}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{kotex}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\numberwithin{equation}{section}
+%\numberwithin{figure}{section}
+\numberwithin{algorithm}{section}
+\hypersetup{pdfborder=0 0 0}
+%\usepackage{flafter}
+%\usepackage[section]{placeins}
+\newtheorem{law}{정리}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newenvironment{proof1}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\qedd}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
+\theoremstyle{examplestyle}
+\newcommand{\paih}[1]{%
+\index{packages!#1@\textsf{#1}}%
+\index{#1@\textsf{#1}}}
+\newcommand{\pai}[1]{%
+\paih{#1}\textsf{#1}}
+\usepackage{array}
+\makeatletter
+\newcolumntype{e}[1]{%--- Enumerated cells ---
+   >{\minipage[t]{\linewidth}%
+     \NoHyper%                Hyperref adds a vertical space
+     \let\\\tabularnewline
+     \enumerate
+        \addtolength{\rightskip}{0pt plus 50pt}% for raggedright
+        \setlength{\itemsep}{-\parsep}}%
+   p{#1}%
+   <{\@finalstrut\@arstrutbox\endenumerate
+     \endNoHyper
+     \endminipage}}
+
+\newcolumntype{i}[1]{%--- Itemized cells ---
+   >{\minipage[t]{\linewidth}%
+        \let\\\tabularnewline
+        \itemize
+           \addtolength{\rightskip}{0pt plus 50pt}%
+           \setlength{\itemsep}{-\parsep}}%
+   p{#1}%
+   <{\@finalstrut\@arstrutbox\enditemize\endminipage}}
+
+\AtBeginDocument{%
+    \@ifpackageloaded{hyperref}{}%
+        {\let\NoHyper\relax\let\endNoHyper\relax}}
+\makeatother
+\setmainfont[
+    Ligatures=TeX,
+    Extension=.otf,
+    UprightFont= *-regular,
+    BoldFont=*-bold,
+    ItalicFont=*-italic,
+    BoldItalicFont=*-bolditalic
+]{texgyreschola}
+%\setmainfont[Mapping=tex-text]{TeX Gyre Pagella}
+%\setsansfont[Mapping=tex-text]{Helvetica}
+\setmainhangulfont[BoldFont=렉시새봄R,ItalicFont=렉시새봄R,
+    ItalicFeatures={FakeSlant=.167}]{렉시새봄R}
+%\setmainhangulfont[BoldFont=나눔명조 ExtraBold,ItalicFont=나눔명조,     ItalicFeatures={FakeSlant=.167}]{나눔명조}
+\setsanshangulfont[BoldFont=나눔고딕 ExtraBold,ItalicFont=나눔고딕,
+    ItalicFeatures={FakeSlant=.167}]{나눔고딕}
+%\setmainhanjafont{네이버사전}
+\makeatletter
+\renewcommand{\tableofcontents}[1][\contentsname]{%
+  \section*{#1}
+  \begin{multicols}{2}
+    \@starttoc{toc}
+  \end{multicols}
+}
+\makeatother
+
+\title{공학 수치해석 중간고사}
+\author{}
+
+% Change to the current month of the seriest
+%\reportmonth{}
+% Change to the current year of the series
+%\reportyear{}
+% Change to the TR number that you obtained from the
+% UWEETR web pages when you initially created a new
+% TR number. Only provide the last 4 digits here, the year
+% goes in the \reportyear{} field above.
+%\reportnumber{MIDTERM EXAM}
+
+\begin{document}
+%\renewcommand{\thelstlisting}{\thesection-\arabic{lstlisting}}
+% This first line makes the cover page, which prints the TR number.
+%\makecover
+% This second line makes the title portion of the first page.
+%\maketitle
+%\tableofcontents[Table of Contents]
+\begin{center}
+{\lineskip .75em\begin{tabular}[t]{c}\LARGE{공학수치해석 중간고사} \large{2012.11.1}\end{tabular}\par}%
+\end{center}
+
+\begin{itemize}
+\item[문제1] 다음 Figure~\ref{fig:e1}은 전투기가 착륙할 때 펼쳐지는 drag parachute 를 보여준다. 이 때 전투기는 속도함수의 가속도($a=-0.004v^2 m/sec^2$)의 지배를 받게 된다. 다음 문항에 답하여라.
+\end{itemize}
+\begin{figure}[!hbpt]
+\centering
+\includegraphics[keepaspectratio=true,width=0.6\linewidth]{midterm/dragchute.eps}
+\caption{Drag chute}
+\label{fig:e1}
+\end{figure}
+\begin{itemize}
+\item[(a)] 감속하는 전투기의 속도에 대한 수학적모델을 세우고, 독립변수와 종속변수를 나타내시오. [5점]
+\item[solution (a)]
+\begin{displaymath}
+a=\frac{dv}{dt}=-0.004v^2
+\end{displaymath}
+종속변수:$a$,$v$, 독립변수:$t$
+\item[(b)] 감속하는 전투기의 속도 $80m/s$에서 $10m/s$에 도달하기 까지 걸리는 시간의 해석해(exact solution)를 구하시오. [10점]
+\item[solution (b)]
+\begin{align*}
+\frac{dv}{v^2}&=0.004dt\\
+\int_{80}^{v}\frac{1}{v^2}dv&=\int_{0}^{t}-0.004dt\\
+\left[\frac{-1}{v}\right]_{80}^{v}&=-0.004t\\
+\left(\frac{1}{v}-\frac{1}{80}\right)&=0.004t\\
+t&=250\left(\frac{1}{v}-\frac{1}{80}\right)\\
+\therefore t(v=10)&=21.9~(second)
+\end{align*}
+\item[(c)] (b)에서 동일하게 감속하는 시간동안 이동한 거리의 해석해(exact solution) 혹은 Euler법을 사용한 수치해(numerical solution)을 구하시오. (단, 수치해를 구할때 독립변수의 간격은 2로 하고, 각 단계에서의 절단오차 소숫점 4째자리까지 나타내시오) [10점]
+\item[solution (c)]
+\item[exact sol.]
+\begin{align*}
+a&=\frac{dv}{dt}\\
+\frac{dv}{ds}\frac{ds}{dt}&=\frac{dv}{ds}v\\
+\frac{dv}{v}&-0.004ds\\
+\int_{80}^{v}\frac{dv}{v}&=\int_{0}^{s}-0.004ds\\
+\left[\ln v\right]_{80}^{v}&=-0.004s\\
+\ln v -\ln 80&=-0.004s\\
+s&=250\ln\left(\frac{80}{v}\right)\\
+\therefore s(v=10)&=520~(m)
+\end{align*}
+\item[num. sol.]
+\begin{align*}
+\left(\frac{1}{v}-\frac{1}{80}\right)&=0.004t\\
+v&=\left(0.004t+\frac{1}{80}\right)^{-1}\\
+\frac{ds}{dt}&=\left(0.004t+\frac{1}{80}\right)^{-1}\\
+s_{i+1}&=s_{i}+(t_{i+1}-t_{i}) \left(0.004t_{i}+\frac{1}{80}\right)^{-1}
+\end{align*}
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c}
+\hline\hline
+Time(second)&Distance(m)\\
+\hline
+0&0\\
+2&160\\
+4&257.561\\
+6&327.7364\\
+8&382.5309\\
+10&427.4748\\
+12&465.57\\
+14&498.6278\\
+16&527.8249\\
+18&553.9687\\
+20&577.6374\\
+22&599.259\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\end{itemize}
+
+\begin{itemize}
+\item[문제2] 다음 Figure\ref{fig:e2}는 등분포하중을 받는 캔틸레버보를 나타낸다. 탄성곡선의 방정식은 식(\ref{eq:e2})와 같다. 다음 문항에 답하여라.
+\end{itemize}
+\begin{figure}[!hbpt]
+\centering
+\includegraphics[keepaspectratio=true,width=0.6\linewidth]{midterm/2.eps}
+\caption{Cantilever beam}
+\label{fig:e2}
+\end{figure}
+
+\begin{equation}\label{eq:e2}
+y=\frac{w_{0}}{24EI}\left(-x^4+4Lx^3-6L^2 x^2\right)
+\end{equation}
+\begin{itemize}
+\item[(a)] 캔틸레버보의 $x=50cm$일 때를 기준점으로 하여 0차에서 3차까지의 Taylor급수전개를 사용하여 $x=100cm$지점의 처짐($y$)의 근사값을 구하고, 참백분율 상대오차 $\epsilon_{t}$를 구하라. (단, 매개변수는 $L=300cm$, $E=50,000kN/cm^2$, $I=30,000cm^4$, $w_{0}=2.5kN/cm$과 같다.) [10점]
+\item[solution (a)]
+참값 $f(100)=-2.9861 \times 10^{-1}$
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c}
+\hline\hline
+Order&Equation&Result&$\epsilon_{t}$\\
+\hline
+0&$f(100)\cong f(50)$&$f(100)\cong -8.3767\times 10^{-2}$& 71.9477\%\\
+1&$f(100)\cong f(50)+f'(50)(50)$&$f(100)\cong -2.4175\times 10^{-1}$ &  19.0407\%\\
+2&$f(100)\cong f(50)+f'(50)(50)+\frac{1}{2!}f''(50)(50)^2$&$f(100)\cong-3.0686\times 10^{-1}$&2.7616\%\\
+3&$f(100)\cong f(50)+f'(50)(50)+\frac{1}{2!}f''(50)(50)^2+\frac{1}{3!}f'''(50)(50)^3$&$f(100)\cong = -2.9818\times 10^{-1}$&0.1453\%
+\\ \hline\hline
+\end{tabular}
+\end{table}
+
+%\item[zero order] $f(100)\cong f(50)=-8.3767\times 10^{-2}$
+%\item[first order] $f(100)\cong f(50)+f'(50)(50)=-2.4175\times 10^{-1}$
+%\item[second order] $f(100)\cong f(50)+f'(50)(50)+\frac{1}{2!}f''(50)(50)^2=-3.0686\times 10^{-1}$
+%\item[third order] $f(100)\cong f(50)+f'(50)(50)+\frac{1}{2!}f''(50)(50)^2+\frac{1}{3!}f'''(50)(50)^3= -2.9818\times 10^{-1}$
+
+\item[(b)] (a)의 매개변수에서 $L=300\pm5cm$ 그리고 $I=30,000\pm100cm^4$의 측정오차가 있었다. 1차 오차해석으로 $x=100cm$ 지점에서의 처짐각($dy/dx$)의 추정오차값을 구하여라. (단, 절단오차는 소수점 4째 자리의 과학적 표기법으로 표시한다.) [10점]
+\item[solution (b)]
+\begin{align*}
+\Delta y'&=\left|\frac{\partial y'}{\partial L}\right|\Delta L+\left|\frac{\partial y'}{\partial I}\right|\Delta I\\
+&=\left|\frac{w_{0}}{24EI}(12x^2-24Lx)\right|\Delta L + \left|-\frac{w_{0}}{24EI^2}(-4x^3+12Lx^2-12L^2 x)\right|\Delta I\\
+\therefore \frac{dy}{dx}&=-5.2778 \times 10^{-3} \pm 2.2593 \times 10^{-4}
+\end{align*}
+\item[(c)] 처짐 $y$가 $1cm$가 되는 지점을 이분법을 사용하여 근을 구하라, $x_{l}=200cm$, $x_{u}=250cm$을 초기구간으로 가정하고, 근사오차 $\epsilon_{a}$가 1\% 이하로 떨어질 때까지 반복하라. [10점] (단, 반복횟수만큼의 열을 가지는 테이블을 작성하고 함수값등의 절단오차는 소수점 4째 자리의 과학적 표기법으로 표시한다.)
+\item[solution (c)]
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c|c|c}
+\hline\hline
+Iter.&$x_l$&$x_u$&$x_r$&$f'(x_r)$&$f(x_r)$&$\epsilon_{a}$\\
+\hline
+1&200&250&225&-0.00076538&-0.1272&11.1111\%\\
+2&200&225&212.5&-0.00097819&-0.035321&5.8824\%\\
+3&200&212.5&206.25&-0.0010825&0.010261&3.0303\%\\
+4&206.25&212.5&209.375&-0.0010305&-0.012497&1.4925\%\\
+5&206.25&209.375&207.8125&-0.0010566&-0.0011094&0.75188\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\end{itemize}
+
+\begin{itemize}
+\item[문제3] 점성감쇠조화진동(harmonic vibration with viscoud damping)하는 물체가 공진상태까지 도달할 때, 정적변위응답$u_{st}$에 대한 동적변위응답$u(t)$는 $\xi$가 작은 경우 다음 근사식(\ref{eq:e4})과 같이 주어진다. 다음 문항에 답하여라.
+\end{itemize}
+\begin{align}
+%u(t)&=u_{st}\frac{1}{2\xi}\left[e^{-\xi\omega_{n}t}\left(\cos\omega_{D}t+\frac{\xi}{\sqrt{1-\xi^2}}\sin\omega_{D}t\right)-\cos\omega_{n}t\right]\label{eq:e3}\\
+u(t)&\cong u_{st}\frac{1}{2\xi}\left(e^{-\xi\omega_{n}t}-1\right)\cos\omega_{n}t\label{eq:e4}
+\end{align}
+여기서, $\xi$는 감쇠비, $\omega_{n}$은 고유진동수이다.
+\begin{itemize}
+\item[(a)] $\omega_{n}=1$이고, $\xi=0.05$일 때, 식(\ref{eq:e4})을 통해 최대변위증폭비 $\max\{u(t)/u_{st}\}$가 5에 도달하는 시간을 Newton-Raphson법을 통해 구하여라. 초기가정 $x_{0}=10$으로 세번 반복한다. [15점]
+\item[(b)] (a)를 할선법(secant method)를 사용하여 구하여라. 초기가정 $x_{0}=10$, $x_{1}=11$으로 시작하고 세번 반복하라 [15점]
+\item[(c)] (a)를 수정된 할선법(modified secant method)를 사용하여 구하여라. 초기가정 $x_{0}=10$, $\delta=0.01$로 시작하고 세번 반복하라 [15점]
+\item[$\blacktriangleright$]유의사항 : 식(\ref{eq:e4})의 1차도함수를 구하기 어려운 경우, 최대변위증폭비를 구하는 문제이기 때문에 $\max(\cos\omega_{n}t)=1$로 가정한 포락곡선함수(envelope function)를 함수로 사용하여도 되며, 증폭비는 절대값이기 때문에 함수의 근의 존재유무에 유의하라.
+\end{itemize}
+
+\clearpage
+\begin{itemize}
+\item[문제3(CASE-1)] 식(\ref{eq:e4})을 사용하는 경우 Newton-Raphson법에서는 1차도함수$f'(t)$를 구해야한다.
+\begin{equation}
+f'(t)=-\frac{\omega_{n}}{2\xi}\left\{\xi e^{-\xi\omega_{n}t}\cos\omega_{n}t+\left(e^{-\xi\omega_{n}t}-1\right)\sin\omega_{n}t\right\}
+\end{equation}
+\item[(a)] Newton-Raphson method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$f(x_{i})$&$f'(x_{i})$&$\epsilon_{a}$\\
+\hline
+0&10&1.0653&-1.8861&5.3462\%\\
+1&10.5648&0.89641&-3.6056&2.2991\%\\
+2&10.8134&0.82357&-4.0546&1.8438\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\item[(b)] Secant method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$x_{i+1}$&$f(x_{i})$&$f(x_{i+1})$&$\epsilon_{a}$\\
+\hline
+0&10&11&1.0653&0.7695&19.1256\%\\
+1&11&13.6013&0.7695&0.065831&1.7578\%\\
+2&13.6013&13.8447&0.065831&0.0045619&0.13071\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\item[(c)] Modified secant method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$f(x_{i})$&$f(x_{i}+\delta x_{i})$&$\epsilon_{a}$\\
+\hline
+0&10&1.0653&1.0351&26.0441\%\\
+1&13.5216&0.086074&0.051804&2.4501\%\\
+2&13.8612&0.00043785&-0.034098&0.012676\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+\end{itemize}
+
+\clearpage
+\begin{itemize}
+\item[문제3(CASE-2)] 포락곡선함수를 사용하는 경우 포락곡선함수는 다음 식(\ref{eq:a3-1})과 같다. 0에서 작아지는 함수이므로, $f(t)+5=0$으로 함수를 구성해야한다.
+\begin{align}
+\frac{u(t)}{u_{st}}=f(t)&=\frac{1}{2\xi}\left(e^{-\xi\omega_{n}t}-1\right)\label{eq:a3-1}\\
+f'(t)&=-\frac{\omega_{n}}{2}e^{-\xi\omega_{n}t}
+\end{align}
+\item[(a)] Newton-Raphson method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$f(x_{i})$&$f'(x_{i})$&$\epsilon_{a}$\\
+\hline
+0&10&1.0653&-0.30327&25.996\%\\
+1&13.5128&0.08831&-0.25442&2.5044\%\\
+2&13.8599&0.00076191&-0.25004&0.021981\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\item[(b)] Secant method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$x_{i+1}$&$f(x_{i})$&$f(x_{i+1})$&$\epsilon_{a}$\\
+\hline
+0&10&11&1.0653&0.7695&19.1256\%\\
+1&11&13.6013&0.7695&0.065831&1.7578\%\\
+2&13.6013&13.8447&0.065831&0.0045619&0.13071\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\item[(c)] Modified secant method
+\begin{table}[!hbpt]
+\centering
+\begin{tabular}{c|c|c|c|c}
+\hline\hline
+Iter.&$x_{i}$&$f(x_{i})$&$f(x_{i}+\delta x_{i})$&$\epsilon_{a}$\\
+\hline
+0&10&1.0653&1.0351&26.0441\%\\
+1&13.5216&0.086074&0.051804&2.4501\%\\
+2&13.8612&0.00043785&-0.034098&0.012676\%\\
+\hline\hline
+\end{tabular}
+\end{table}
+\end{itemize}
+
+\end{document}

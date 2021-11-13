@@ -1,0 +1,57 @@
+%%% my-l.sty
+%%% Style file for lshort-kr
+%%%  $ Karnes Kim $
+%%%
+\RequirePackage{url}
+\ProvidesPackage{my-l}
+
+\renewcommand{\cih}[1]{%
+\index{명령!#1@\texttt{\bs#1}}%
+\index{#1@\texttt{\hspace*{-1.2ex}\bs #1}}}
+\renewcommand{\ci}[1]{\cih{#1}\texttt{\bs#1}}
+%Package
+\renewcommand{\pai}[1]{%
+\index{패키지!#1@\textsf{#1}}%
+\index{#1@\textsf{#1}}%
+\textsf{#1}}
+% Index entry for an environment
+\renewcommand{\ei}[1]{%
+\index{환경!\texttt{#1}}%
+\index{#1@\texttt{#1}}%
+\texttt{#1}}
+% Indexentry for a word (Word inserted into the text)
+\renewcommand{\wi}[1]{\index{#1}#1}
+%\def\AmSLaTeX{$\mathcal{A}$\kern-.1667em\lower.5ex
+%  \hbox{$\mathcal{M}$}\kern-.125em$\mathcal{S}$-\LaTeX}
+\let\hemph\dotemph
+%%%
+
+\kscntformat{chapter}{제\,}{\,장}
+\kscntformat{section}{제\,}{\,절}
+\def\KorDocNames{%
+ \def\contentsname{목~차}
+ \def\listfigurename{그림 목차}
+ \def\listtablename{표 목차}
+ \def\figurename{그림}
+ \def\tablename{표}
+ \def\bibname{참고 문헌}
+ \def\indexname{찾아보기}
+ \def\kstoday{\number\year 년~\number\month 월~\number\day 일} 
+ \let\ORIGtoday\today
+ \let\today\kstoday
+}
+
+\skip\footins=10pt
+\renewcommand\topfraction{.88}
+\renewcommand\floatpagefraction{.75}
+\DeclareRobustCommand{\HWP}{{아래아한글}}
+
+%\def\cntrdot{\textbf{·}}
+\def\cntrdot{\raisebox{.3ex}{\hbox{\hskip.33em\textbf{\textperiodcentered}\hskip.33em}}}
+
+\DeclareUnicodeCharacter{"2026}{\unihangulchar{"2026}}
+\def\kldots{…}
+
+\newcommand\HLaTeX{H\LaTeX\index{H\LaTeX}}
+
+\endinput

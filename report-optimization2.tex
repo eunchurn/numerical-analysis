@@ -1,0 +1,289 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+\documentclass[a4,10pt]{article}
+\usepackage{exam}
+%\usepackage{pslatex}
+\usepackage{graphicx}
+\usepackage[toc,page]{appendix}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\input{listingstyle}
+\renewcommand*{\lstlistingname}{Code [\textsc{\scriptsize{MATLAB}}]}
+\usepackage{mathptmx}	% Use the Postscript Times font
+\usepackage[FIGBOTCAP,normal,bf,tight]{subfigure}
+\usepackage[normal,bf,tight]{subfigure}
+\usepackage[dvips,light,first,bottomafter]{draftcopy}
+\draftcopyName{Sample, contains no OUO}{70}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{kotex}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\numberwithin{equation}{section}
+%\numberwithin{figure}{section}
+%\numberwithin{algorithm}{section}
+\hypersetup{pdfborder=0 0 0}
+%\usepackage{flafter}
+%\usepackage[section]{placeins}
+\newtheorem{law}{정리}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newenvironment{proof1}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\qedd}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
+\theoremstyle{examplestyle}
+\newcommand{\paih}[1]{%
+\index{packages!#1@\textsf{#1}}%
+\index{#1@\textsf{#1}}}
+\newcommand{\pai}[1]{%
+\paih{#1}\textsf{#1}}
+\usepackage{array}
+\makeatletter
+\newcolumntype{e}[1]{%--- Enumerated cells ---
+   >{\minipage[t]{\linewidth}%
+     \NoHyper%                Hyperref adds a vertical space
+     \let\\\tabularnewline
+     \enumerate
+        \addtolength{\rightskip}{0pt plus 50pt}% for raggedright
+        \setlength{\itemsep}{-\parsep}}%
+   p{#1}%
+   <{\@finalstrut\@arstrutbox\endenumerate
+     \endNoHyper
+     \endminipage}}
+
+\newcolumntype{i}[1]{%--- Itemized cells ---
+   >{\minipage[t]{\linewidth}%
+        \let\\\tabularnewline
+        \itemize
+           \addtolength{\rightskip}{0pt plus 50pt}%
+           \setlength{\itemsep}{-\parsep}}%
+   p{#1}%
+   <{\@finalstrut\@arstrutbox\enditemize\endminipage}}
+
+\AtBeginDocument{%
+    \@ifpackageloaded{hyperref}{}%
+        {\let\NoHyper\relax\let\endNoHyper\relax}}
+\makeatother
+\setmainfont[
+    Ligatures=TeX,
+    Extension=.otf,
+    UprightFont= *-regular,
+    BoldFont=*-bold,
+    ItalicFont=*-italic,
+    BoldItalicFont=*-bolditalic
+]{texgyreschola}
+%\setmainfont[Mapping=tex-text]{TeX Gyre Pagella}
+%\setsansfont[Mapping=tex-text]{Helvetica}
+\setmainhangulfont[BoldFont=렉시새봄R,ItalicFont=렉시새봄R,
+    ItalicFeatures={FakeSlant=.167}]{렉시새봄R}
+%\setmainhangulfont[BoldFont=나눔명조 ExtraBold,ItalicFont=나눔명조,     ItalicFeatures={FakeSlant=.167}]{나눔명조}
+\setsanshangulfont[BoldFont=나눔고딕 ExtraBold,ItalicFont=나눔고딕,
+    ItalicFeatures={FakeSlant=.167}]{나눔고딕}
+%\setmainhanjafont{네이버사전}
+\makeatletter
+\renewcommand{\tableofcontents}[1][\contentsname]{%
+  \section*{#1}
+  \begin{multicols}{2}
+    \@starttoc{toc}
+  \end{multicols}
+}
+\makeatother
+
+\title{공학 수치해석 중간고사}
+\author{}
+
+% Change to the current month of the seriest
+%\reportmonth{}
+% Change to the current year of the series
+%\reportyear{}
+% Change to the TR number that you obtained from the
+% UWEETR web pages when you initially created a new
+% TR number. Only provide the last 4 digits here, the year
+% goes in the \reportyear{} field above.
+%\reportnumber{MIDTERM EXAM}
+
+\begin{document}
+%\renewcommand{\thelstlisting}{\thesection-\arabic{lstlisting}}
+% This first line makes the cover page, which prints the TR number.
+%\makecover
+% This second line makes the title portion of the first page.
+%\maketitle
+%\tableofcontents[Table of Contents]
+\begin{center}
+{\lineskip .75em\begin{tabular}[t]{c}\LARGE{Lagrangian method} \large{(제출일 : 2012.12.15)}\end{tabular}\par}%
+\end{center}
+1. 다음 최적화식을 풀어라
+\begin{equation*}
+\begin{aligned}
+& \underset{x_{1},x_{2}}{\text{minimize}}& & x_{1}-x_{2}-2x_{3}\\
+& \text{subject to}& & x_{1}+x_{2}+x_{3}=5\\
+& & & x_{1}^{2}+x_{2}^{2}=4\\
+\end{aligned}
+\end{equation*}
+\framebox{solution} 문제에 $-1$을 곱하고 최대값을 구하는 최적화문제로 변형하여 Lagrangian을 구하면
+\begin{equation*}
+L(x_{1},x_{2},x_{3},\lambda_{1},\lambda_{2})=-x_{1}+x_{2}+2x_{3}+\lambda_{1}(5-x_{1}-x_{2}-x_{3})+\lambda_{2}(4-x_{1}^{2}-x_{2}^{2})
+\end{equation*}
+편미분을 수행하면,
+\begin{align*}
+\frac{\partial L}{\partial x_{1}}=-1-\lambda_{1}-2x_{1}\lambda_{2}&=0\\
+\frac{\partial L}{\partial x_{2}}=1-\lambda_{1}-2x_{2}\lambda_{2}&=0\\
+\frac{\partial L}{\partial x_{3}}=2-\lambda_{1}&=0\\
+\end{align*}
+즉, $\lambda_{1}=2$가 된다. 따라서 $x_{1}=-\frac{3}{2\lambda_{2}}$, $x_{2}=-\frac{1}{2\lambda_{2}}$로 정리하여, 조건식 $x_{1}^{2}+x_{2}^{2}=4$에 대입하면, $x_{1}=-\frac{6}{\sqrt{10}}$, $x_{2}=-\frac{2}{\sqrt{10}}$이 되고, 나머지 조건식에 $x_{1}$과 $x_{2}$를 대입하여 $x_{3}$을 구하면 $x_{3}=5+\frac{8}{\sqrt{10}}$이 되고, $\lambda_{1}=2$, $\lambda_{2}=\sqrt{5/8}$이 된다.\\
+2. 다음 최적화식을 풀어라
+\begin{equation*}
+\begin{aligned}
+& \underset{x_{1},x_{2}}{\text{minimize}}& & 2x_{1}^2-x_{2}^2\\
+& \text{subject to}& & x_{1}+x_{2}=1\\
+%& & & x_{1}^{2}+x_{2}^{2}=4\\
+\end{aligned}
+\end{equation*}
+\framebox{solution} Lagrangian을 구하면,
+\begin{equation*}
+L(x_{1},x_{2},\lambda)=-2x_{1}^{2}+x_{2}^{2}+\lambda(1-x_{1}-x_{2})
+\end{equation*}
+편미분하면
+\begin{align*}
+\frac{\partial L}{\partial x_{1}}=-4x_{1}-\lambda&=0\\
+\frac{\partial L}{\partial x_{2}}=2x_{2}-\lambda&=0\\
+\frac{\partial L}{\partial \lambda}=1-x_{1}-x_{2}&=0
+\end{align*}
+즉, $\lambda=4$, $x_{1}=-1$, $x_{2}=2$가 된다.\\
+3. 어떤 사람의 저축이 3개의 펀드에 가입되어 있다. 각각의 펀드는 10\%, 10\% 그리고 15\%의 수익을 기대할 수 있다. 12\%의 수익률을 기대하면서, 위험(risk)를 최소화하도록 분배하고자 한다. 투자에 대한 위험도를 다음과 같이 분석하였다. 펀드1에서 저축에 대한 위험비율은 $x$, 펀드2에서 저축에 대한 위험비율은 $y$ 그리고 펀드3에서 저축에 대한 위험비율은 $z$. 여기서 $x+y+z=1$이고, 상호연계된 위험도는 다음 식과 같다.
+\begin{equation*}
+400x^2+800y^2+200xy+1600z^2+400yz
+\end{equation*}
+\begin{itemize}
+\item[(1)] 위험도(risk)를 최소화 시키면서 12\%의 수익률을 기대할 수 있는 투자비율을 찾아라.
+\item[(2)] 문제3(1)에서 위험도 목표함수의 값은 390이었다. 만약 수익률을 12\%대신에 12.5\%을 목표로 한다면, 위험도 함수는 어떻게 변화되는지 찾아라.
+\end{itemize}
+\framebox{solution} 문제를 세우면,
+\begin{equation*}
+\begin{aligned}
+& \underset{x,y,z}{\text{minimize}}& &400x^{2}+800y^{2}+200xy+1600z^{2}+400yz\\
+& \text{subject to}& & x+y+1.5z=1.2\\
+& & & x+y+z=1\\
+\end{aligned}
+\end{equation*}
+Lagrangian은
+\begin{equation*}
+L(x,y,z,\lambda_{1},\lambda_{2})=-400x^{2}-800y^{2}-200xy-1600z^{2}-400yz+\lambda_{1}(1.2-x-y-1.5z)+\lambda_{2}(1-x-y-z)
+\end{equation*}
+편미분을 수행하면,
+\begin{align*}
+\frac{\partial L}{\partial x}=-800x-200y-\lambda_{1}-\lambda_{2}&=0\\
+\frac{\partial L}{\partial y}=-1600x-200x-400z-\lambda_{1}-\lambda_{2}&=0\\
+\frac{\partial L}{\partial z}=-3200z-400y-1.5\lambda_{1}-\lambda_{2}&=0
+\end{align*}
+이 된다. 선형대수로 표현하면,
+\begin{align*}
+\begin{bmatrix}-800&-200&0\\-200&-1600&-400\\0&-400&-3200\end{bmatrix}\begin{Bmatrix}x\\y\\z\end{Bmatrix}&=\begin{Bmatrix}\lambda_{1}+\lambda_{2}\\\lambda_{1}+\lambda_{2}\\1.5\lambda_{1}+\lambda_{2}\end{Bmatrix}\\
+\begin{bmatrix}1&1&1.5\\1&1&1\end{bmatrix}\begin{Bmatrix}x\\y\\z\end{Bmatrix}&=\begin{Bmatrix}1.2\\1\end{Bmatrix}
+\end{align*}
+여기서 $\lambda_{1}+\lambda_{2}$항을 소거하여 $x,y,z$를 구하면,
+\begin{equation*}
+\begin{bmatrix}1&1&1.5\\1&1&1\\-3&7&2\end{bmatrix}\begin{Bmatrix}x\\y\\z\end{Bmatrix}=\begin{Bmatrix}1.2\\1\\0\end{Bmatrix}
+\end{equation*}
+즉, $x=0.5$,$y=0.1$,$z=0.4$가 된다. 다시 위의 식에 대입하여 $\lambda_{1}$과 $\lambda_{2}$를 구하면, $\lambda_{1}=-1800$, $\lambda_{2}=1380$이 된다. 수익률을 12.5\%를 목표로 하게 되면, 원래의 수익률에서 $\lambda_{1}$만큼의 증분이 더해지면 된다. 따라서, $\Delta=0.05$가 되기 때문에,
+\begin{equation*}
+\Delta\lambda_{1}=0.05\times(-1800)=-90
+\end{equation*}
+즉, 수익률 5\%를 늘렸을때 기존의 위험도함수 390에서 90이 증가된 480가 위험도함수가 된다.\\
+4. 한미페인트는 건축용 페인트와 공업용 페인트 두 종류의 페인트를 생산하여 판매한다. 건축용 페인트는 갤런(gallon)당 4,000원의 이익을, 공업용 페인트는 5,000원의 이익을 얻는다. 두 제품은 가공공정과 혼합공정을 거치는데 건축용 페인트 1갤런을 생산하기 위해서는 가공공정에서 4시간, 혼합공정에서 2시간의 작업이 필요하며 공업용 페인트 1갤런을 생산하기 위해서는 가공공정에서 2시간, 혼합공정에서 3시간의 작업이 필요하다. 하루에 가능한 작업시간은 가공공정이 100시간, 혼합공정이 60시간이다. 공업용 페인트는 특수한 색소가 첨가되는데 1갤런을 가공하는 데 색소는 2g이 필요하며 하루에 가용가능한 색소는 20g이다. 이익을 최대로 하기 위해 하루에 생산해야 할 건축용 페인트와 공업용 페인트를 구하여라.
+\begin{itemize}
+\item[(1)] 선형계획모델을 세워라.
+\item[(2)] 도해법(graphical method)로 최적의 해를 구하여라.
+\item[(3)] MATLAB 함수 \texttt{linprog()}를 사용하여 최적의 해를 구하여라.
+\end{itemize}
+\framebox{solution}
+\begin{equation*}
+\begin{aligned}
+& \underset{x_{1},x_{2}}{\text{maximize}}& &4000x_{1}+5000x_{2}\\
+& \text{subject to}& & 4x_{1}+2x_{2}\leq100\\
+& & & 2x_{1}+3x_{2}\leq 60\\
+& & & 2x_{2}\leq 20\\
+& & & x_{1},x_{2}\geq0\\
+\end{aligned}
+\end{equation*}
+
+%전쟁지역의 피난민에게 물자들을 공수하는 기관에 속한 엔지니어라고 가정하자. 물자들을 가능한 한 낮은 고도에서 떨어뜨려 관측되지 않으면서 가능한 피난민 캠프에 근접하려고 한다. 낙하산은 수송기에서 떨어지자마자 펼쳐지며, 손상을 줄이기 위하여 지면에 도착하는 충격속도가 적어도 임계속도 $v_{c}=20 m/sec$보다는 작아야한다. 낙하용 낙하산의 단면적은 반구의 단면적과 같다.
+%\begin{equation*}
+%A=2\pi r^2
+%\end{equation*}
+%질량을 낙하산에 연결하는 16개의 줄이 길이는 다음 식과 같이 낙하산 반지름으로 표시된다.
+%\begin{equation*}
+%l=\sqrt{2}r
+%\end{equation*}
+%낙하산에 걸리는 항력계수는 다음 식과 같이 단면적의 선형함수로 표현된다.
+%\begin{equation*}
+%c=k_{c}A
+%\end{equation*}
+%여기서, $c$는 항력계수($kg/s$), $k_{c}$는 항력에 대한 면적의 영향을 나타내는 비례상수로 [$kg/(s\cdot m^{2})$]의 단위를 갖는다. 또한 전체 하중을 여러 개의 뭉치로 나누면, 각각의 뭉치 덩어리 질량은 다음과 같이 계산된다.
+%\begin{equation*}
+%m=\frac{M_{t}}{n}
+%\end{equation*}
+%여기서 $m$은 각 뭉치의 질량($kg$)이며, $M_{t}$는 낙하된 전체질량($kg$), 그리고 $n$의 전체 뭉치수이다. 끝으로 각 낙하산의 가격은 다음 식과 같이 비선형식으로 표시된다.
+%\begin{equation*}
+%p=c_{0}+c_{1}l+c_{2}A^{2}
+%\end{equation*}
+%여기서, $p$는 대당가격, $c_{0}$, $c_{1}$, $c_{2}$는 가격 계수들이다. $c_{0}$는 낙하산들의 기본 가격이며, 큰 낙하산은 작은 크기의 낙하산에 비해 제작하기가 훨씬 어렵기 때문에 면적에 대하여 비선형적 가격증가를 보인다.\\충분히 작은 낙하 충격속도를 가지면서 최소의 비용이 되도록 낙하산 크기 $r$과 개수 $n$을 결정하라.\\
+%목적함수를 정의하면 다음식으로 표현된다.
+%\begin{equation*}
+%\begin{aligned}
+%& \underset{n,r}{\text{minimize}}
+%& & C(n,r) = np\\
+%& \text{subject to}
+%& & v \leq v_{c}, \; n \geq 1, n\in\mathbb{Z}
+%\end{aligned}
+%\end{equation*}
+%이 문제는 비선형 구속화 문제가 된다. 넓은 의미로는 수식화 되었어도 어떻게 충격속도 $v$를 구할 것이가라는 다른 문제가 남는다. 낙하하는 물체의 속도는 다음과 같이 계산되었다.
+%\begin{equation}\label{eq:1-10}
+%v=\frac{gm}{c}\left(1-e^{-(c/m)t}\right)
+%\end{equation}
+%여기서 $v$는 속도($m/sec$), $g$는 중력가속도 ($m/sec^2$), $m$은 질량($kg$), 그리고 $t$는 시간($sec$)이다. 속도와 시간의 관계가 주어져있지만 물체가 떨어지는데 걸리는 시간 $t$를 결정해야하고, 지면에 닿을때의 속도가 임계속도 $v_c$ 이하여야 한다. 낙하위치에 따라 지면에 도달할때의 속도와 시간이 달라지기 때문에 식(\ref{eq:1-10})을 적분하여 얻어야 한다. 낙하높이 $z$와 낙하시간 $t$사이의 관계는
+%\begin{align}
+%z&=\int_{0}^{t}\frac{gm}{c}\left(1-e^{-(c/m)t}\right)dt\\
+%&=z_{0}-\frac{gm}{c}t+\frac{gm^2}{c^2}\left(1-e^{-(c/m)t}\right)\label{eq:pt4-9}
+%\end{align}
+%여기서 $z_{0}$는 낙하 최초의 높이($m$)다. 즉 이식을 통해 시간 $t$가 주어지면 높이 $z$를 예측할 수 있다. 그러나 이 문제는 높이 $z_{0}$만큼 떨어지는데 걸리는 시간을 계산하여야 하기 때문에 식(\ref{eq:pt4-9})의 근을 구하눈 문제로 다시 수식화 하여야 한다. 즉, 높이 $z$가 $0$이 되는데 필요한 시간에 대한 식을 쓰면,
+%\begin{align}
+%f(t)&=z_{0}-\frac{gm}{c}t+\frac{gm^2}{c^2}\left(1-e^{-(c/m)t}\right)\label{eq:pt4-10}\\
+%&=0\\
+%root\left[z_{0}-\frac{gm}{c}t+\frac{gm^2}{c^2}\left(1-e^{-(c/m)t}\right)\right]
+%\end{align}
+%으로 정리가 된다. 이때 시간을 구하기 위해 구간법(수치해법)을 사용하여 근을 구하여야 한다. 그 이후 시간$t$가 계산이 되면, 지면에 닿을때의 속도$v$를 구할 수 있다. 이 속도가 임계속도 이내인지 판별해야하는 조건이 추가가 된다.\\
+%
+%다음 조건으로 총가격을 최소화 시키는 최적의 뭉치의 개수 $n$과, 최적의 낙하산의 반지름 $r$을 찾아라.
+%
+%\begin{table}[!hbt]
+%\centering
+%\begin{tabular}{c|c|c|c}
+%\hline\hline
+%parameter name&parameters&value&unit\\
+%\hline
+%초기 낙하높이&$z_{0}$&100&$m$\\
+%면적당 항력비례상수&$k_{c}$&200&$kg/(s\cdot m)^2$\\
+%수송할 물자의 전체 질량전체질량&$M_{t}$&100&$ton$\\
+%낙하산 개당 기본 제작단가&$c_{0}$&1,000&KRW\\
+%낙하산 줄의 길이당 단가&$c_{1}$&300&$\text{KRW}/m$\\
+%낙하산 섬유 면적당 단가&$c_{2}$&50&$\text{KRW}/m^2$\\
+%\hline\hline
+%\end{tabular}
+%\end{table}
+%이 계산을 수계산 혹은 컴퓨터계산을 통해 결과를 얻어내는데 어떠한 수치해석 방법을 사용하여도 무방하다. 또한 최적의 결과(가격)가 아니어도 조건은 만족시켜야 한다.
+%단, 수계산의 경우 최소한 10번의 시행오차과정을 컴퓨터계산의 경우 20번의 시행오차과정을 수행하고, 최적의 단가, 개수, 전체가격, 지면에 도달할 때의 시간, 지면에 도달할 때의 속도를 테이블로 작성하라.
+\end{document}
